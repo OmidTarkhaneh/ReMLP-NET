@@ -35,7 +35,7 @@ $ Run the Main.py
 ```
 
 ## Citation
-To cit this project please cit the following references:
+To use this project please cite the following references:
 
 ## License
 
