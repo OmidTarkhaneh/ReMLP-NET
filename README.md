@@ -4,20 +4,10 @@ This reserach proposed an efficient ML potential for molecular energy prediction
 
 ## Table of Contents
 
-- [Installation](#installation)
 - [Requirements](#Requirements)
+- [Installation](#installation)
 - [Citation](#Citation)
 - [License](#license)
-
-## Installation
-
-Provide instructions on how to install your project here. Include any dependencies that need to be installed and any setup steps.
-
-```bash
-# Example installation steps
-$ git clone https://github.com/OmidTarkhaneh/ReMLP-NET.git
-$ cd ReMLP-NET
-$ Run the Main.py
 
 
 ## Requirements
@@ -30,4 +20,22 @@ The following packages are required to work and run the project files.
 - [Pandas](#Pandas)
 - [ase](#ase)
 - [Pandas](#Pandas)
+
+
+
+## Installation
+
+Please use the following steps for running and installation of the project files.
+
+```bash
+# Example installation steps
+$ git clone https://github.com/OmidTarkhaneh/ReMLP-NET.git
+$ cd ReMLP-NET
+$ Run the Main.py
+```
+
+## Citation
+To cit this project please cit the following references:
+
+## License
 
