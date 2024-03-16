@@ -29,8 +29,8 @@ Please use the following steps for running and installation of the project files
 
 ```bash
 # Example installation steps
-$ git clone https://github.com/OmidTarkhaneh/ReMLP-NET.git
 $ cd ReMLP-NET
+$ git clone https://github.com/OmidTarkhaneh/ReMLP-NET.git
 $ Run the Main.py
 ```
 
