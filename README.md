@@ -18,8 +18,8 @@ The following packages are required to work and run the project files.
 - [numpy](#numpy)
 - [ase](#ase)
 - [Pandas](#Pandas)
-- [ase](#ase)
-- [Pandas](#Pandas)
+- [h5py](#h5py)
+- [ypstruct](#ypstruct)
 
 
 
