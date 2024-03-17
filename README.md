@@ -1,7 +1,7 @@
 # ReMLP-NET: A Neural Network Interaction Potential for Molecular Total Energy Prediction
 
 <!-- Add an image in the header -->
-![Model Workflow](./New_Model.png)
+<!-- ![Model Workflow](./New_Model.png) -->
 
 This reserach proposed an efficient ML potential for molecular energy prediction.
 
