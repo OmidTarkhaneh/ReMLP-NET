@@ -1,5 +1,5 @@
 import torch
-
+# import torchani
 import os
 import math
 import torch.utils.tensorboard
@@ -12,15 +12,19 @@ import warnings
 import numpy as np
 
 # helper function to convert energy unit from Hartree to kcal/mol
-
+# from torchani.units import hartree2kcalmol
 
 # device to run the training
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 
+
+
+
+
 has_cuaev=False
 if has_cuaev:
-
+    # We need to import torchani.cuaev to tell PyTorch to initialize torch.ops.cuaev
     from . import cuaev  # type: ignore # noqa: F401
 else:
     warnings.warn("cuaev not installed")
@@ -480,6 +484,8 @@ class AEVComputer(torch.nn.Module):
         sections for the angular sub-AEV, are linearly covered with shifts. By
         default the distance shifts start at 0.9 Angstroms.
 
+        To reproduce the ANI-1x AEV's the signature ``(5.2, 3.5, 16.0, 8.0, 16, 4, 32.0, 8, 4)``
+        can be used.
         """
         # This is intended to be self documenting code that explains the way
         # the AEV parameters for ANI1x were chosen. This is not necessarily the

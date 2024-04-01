@@ -1,16 +1,11 @@
-'''
-  In implementing ReMLP-NET some functions are borrowed from torchani package (https://aiqm.github.io/torchani/) especially the 
-  sections related to the AEV generation and dataloading and subtracting the self-energies.
-'''
-
-
 import numpy as np
 import matplotlib.pyplot as plt
 from ypstruct import structure
 from Model import ModelTest
-from Modelutils import EnergyShifter, load
+from aniutils import EnergyShifter, load
 import os
 import pandas as pd
+import sys
 import argparse
 import torch
 
@@ -47,8 +42,10 @@ if args.dataset_path_test is None:
 
 
 #################################  loading Data ############################################
-"""Tools for loading, shuffling, and batching  datasets
+"""Tools for loading, shuffling, and batching ANI datasets
 
+The `torchani.data.load(path)` creates an iterable of raw data,
+where species are strings, and coordinates are numpy ndarrays.
 
 You can transform this iterable by using transformations.
 To do a transformation, call `it.transformation_name()`. This

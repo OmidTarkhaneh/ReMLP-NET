@@ -1,5 +1,5 @@
 import torch
-
+# import torchani
 import os
 import math
 import torch.utils.tensorboard
@@ -9,7 +9,7 @@ import math
 from aev import *
 
 # helper function to convert energy unit from Hartree to kcal/mol
-
+# from torchani.units import hartree2kcalmol
 
 # device to run the training
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')

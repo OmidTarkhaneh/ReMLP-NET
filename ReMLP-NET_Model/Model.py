@@ -1,5 +1,6 @@
 def ModelTest(training, validation, data_test,species_order,energy_shifter, epochs, device):
         import torch
+        # import torchani
         import math
         import torch.utils.tensorboard
         import tqdm
@@ -9,13 +10,13 @@ def ModelTest(training, validation, data_test,species_order,energy_shifter, epoc
         from aev import AEVComputer
         from units import hartree2kcalmol
         from nn import RetrieviumModel, Sequential
-
+        # from aniutils import EnergyShifter, load
 
         from sklearn.metrics import mean_squared_error
         import pandas as pd
     
         # helper function to convert energy unit from Hartree to kcal/mol
-
+        # from torchani.units import hartree2kcalmol
 
         # device to run the training
         device = device
@@ -31,6 +32,7 @@ def ModelTest(training, validation, data_test,species_order,energy_shifter, epoc
         # To begin with, let's first import the modules and setup devices we will use:
 
 
+        # from torchani.units import hartree2kcalmol
 
 
         # helper function to convert energy unit from Hartree to kcal/mol
@@ -60,7 +62,7 @@ def ModelTest(training, validation, data_test,species_order,energy_shifter, epoc
         values_ShfZ=[]
         while count< Rca:
                 count+=0.7853999999999999
-                if count<Rcr:
+                if count<Rca:
                         values_ShfZ.append(count)
 
         EtaR = torch.tensor([12.5359], device=device)
@@ -76,7 +78,7 @@ def ModelTest(training, validation, data_test,species_order,energy_shifter, epoc
     
         # ['C', 'H', 'O', 'N', 'Br', 'S', 'Cl', 'P', 'I', 'F'],
         num_species = len(species_order)
-        aev_computer = AEVComputer(Rcr, Rca, EtaR, ShfR, EtaA, Zeta, ShfA, ShfZ, num_species)
+        aev_computer = AEVComputer(Rcr, Rca, EtaR, ShfR, EtaA, Zeta, ShfZ, ShfA, num_species)
         # energy_shifter = EnergyShifter(None)
         print(energy_shifter.self_energies)
 
@@ -93,15 +95,15 @@ def ModelTest(training, validation, data_test,species_order,energy_shifter, epoc
                         super(TinyModel, self).__init__()
 
                         self.lin1 = torch.nn.Linear(aev_dim, 256)
-                        self.ELU1 = torch.nn.ELU(0.1)
+                        self.CELU1 = torch.nn.CELU(0.1)
                         self.lin2 = torch.nn.Linear(256, 256)
-                        self.ELU2 = torch.nn.ELU(0.1)
+                        self.CELU2 = torch.nn.CELU(0.1)
                         self.lin3 = torch.nn.Linear(256, 128)
-                        self.ELU3 = torch.nn.ELU(0.1)
+                        self.CELU3 = torch.nn.CELU(0.1)
                         self.lin4 = torch.nn.Linear(128, 96)
-                        self.ELU4 = torch.nn.ELU(0.1)
+                        self.CELU4 = torch.nn.CELU(0.1)
                         self.lin5 = torch.nn.Linear(224, 224)
-                        self.ELU5 = torch.nn.ELU(0.1)
+                        self.CELU5 = torch.nn.CELU(0.1)
                         self.lin6 = torch.nn.Linear(224, 1)
 
 
@@ -111,16 +113,16 @@ def ModelTest(training, validation, data_test,species_order,energy_shifter, epoc
                 def forward(self, x):
 
                         x = self.lin1(x)
-                        x = self.ELU1(x)
+                        x = self.CELU1(x)
                         x = self.lin2(x)
-                        x = self.ELU2(x)
+                        x = self.CELU2(x)
                         x = self.lin3(x)
-                        x4 = self.ELU3(x)
+                        x4 = self.CELU3(x)
                         x = self.lin4(x4)
-                        x5 = self.ELU4(x)
+                        x5 = self.CELU4(x)
                         x6=torch.cat((x4,x5),dim=-1)
                         x = self.lin5(x6)
-                        x=self.ELU5(x)
+                        x=self.CELU5(x)
                         xx=torch.multiply(x6,x)
                         x=self.lin6(xx)
 
@@ -128,18 +130,26 @@ def ModelTest(training, validation, data_test,species_order,energy_shifter, epoc
                         return x
 
 
-      
-        network =TinyModel()
+        H_network =TinyModel()
 
 
-        # Here we define sigle model and in ReMLP-NET Model, we see that the model only accept the whole AEV vector
-        nn = RetrieviumModel(network)
+        nn = RetrieviumModel([H_network])
 
         print(nn)
 
         ###############################################################################
         # Initialize the weights and biases.
         #
+        # .. note::
+        #   Pytorch default initialization for the weights and biases in linear layers
+        #   is Kaiming uniform. See: `TORCH.NN.MODULES.LINEAR`_
+        #   We initialize the weights similarly but from the normal distribution.
+        #   The biases were initialized to zero.
+        #
+        # .. _TORCH.NN.MODULES.LINEAR:
+        #   https://pytorch.org/docs/stable/_modules/torch/nn/modules/linear.html#Linear
+
+
         def init_params(m):
                 if isinstance(m, torch.nn.Linear):
                         torch.nn.init.kaiming_normal_(m.weight, a=1.0)
@@ -153,10 +163,15 @@ def ModelTest(training, validation, data_test,species_order,energy_shifter, epoc
         # model = torchani.nn.Sequential(aev_computer, nn).to(device)
         model = Sequential(aev_computer, nn).to(device)
         AdamW = torch.optim.AdamW(model.parameters())
-  
+
+
+
+
+        SGD = torch.optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
         ###############################################################################
         # Setting up a learning rate scheduler to do learning rate decay
         AdamW_scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(AdamW, factor=0.5, patience=100, threshold=0)
+        SGD_scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(SGD, factor=0.5, patience=100, threshold=0)
 
 
         ###############################################################################
@@ -258,6 +273,7 @@ def ModelTest(training, validation, data_test,species_order,energy_shifter, epoc
                         torch.save(nn.state_dict(), best_model_checkpoint)
 
                 AdamW_scheduler.step(rmse)
+                SGD_scheduler.step(rmse)
      
 
 
@@ -275,13 +291,17 @@ def ModelTest(training, validation, data_test,species_order,energy_shifter, epoc
                         loss = (mse(predicted_energies, true_energies) / num_atoms.sqrt()).mean()
 
                         AdamW.zero_grad()
+                        SGD.zero_grad()
                         loss.backward()
                         AdamW.step()
+                        SGD.step()
            
 
-
+        device='cpu'
+        model=model.to(device)
 
         rmse_1, predicted_energies_111,true_energies_111,true_dft1main_energy,predicted_dft1main_energies = validate2()
+
 
 
         true_energies_22= np.hstack(true_energies_111)
