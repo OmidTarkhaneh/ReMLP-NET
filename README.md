@@ -5,7 +5,7 @@
 <!-- ![Model Workflow](./New_Model.png)
  -->
 
-<img src="./New_Model.png" alt="Model Workflow" width="300" height="600"/>
+<img src="./New_Model.png" alt="Model Workflow" width="800" height="200"/>
 
 This reserach proposed an efficient ML potential for molecular energy prediction.
 
