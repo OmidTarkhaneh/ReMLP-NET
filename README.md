@@ -2,6 +2,7 @@
 
 <!-- Add an image in the header -->
 <!-- ![Model Workflow](./New_Model.png) -->
+![Model Workflow](./New_Model.png)
 
 This reserach proposed an efficient ML potential for molecular energy prediction.
 
