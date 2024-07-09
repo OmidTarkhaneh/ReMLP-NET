@@ -62,7 +62,7 @@ def ModelTest(training, validation, data_test,species_order,energy_shifter, epoc
         values_ShfZ=[]
         while count< Rca:
                 count+=0.7853999999999999
-                if count<Rcr:
+                if count<Rca:
                         values_ShfZ.append(count)
 
         EtaR = torch.tensor([12.5359], device=device)
