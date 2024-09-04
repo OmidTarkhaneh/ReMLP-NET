@@ -95,15 +95,15 @@ def ModelTest(training, validation, data_test,species_order,energy_shifter, epoc
                         super(TinyModel, self).__init__()
 
                         self.lin1 = torch.nn.Linear(aev_dim, 256)
-                        self.CELU1 = torch.nn.CELU(0.1)
+                        self.ELU1 = torch.nn.ELU(0.1)
                         self.lin2 = torch.nn.Linear(256, 256)
-                        self.CELU2 = torch.nn.CELU(0.1)
+                        self.ELU2 = torch.nn.ELU(0.1)
                         self.lin3 = torch.nn.Linear(256, 128)
-                        self.CELU3 = torch.nn.CELU(0.1)
+                        self.ELU3 = torch.nn.ELU(0.1)
                         self.lin4 = torch.nn.Linear(128, 96)
-                        self.CELU4 = torch.nn.CELU(0.1)
+                        self.ELU4 = torch.nn.ELU(0.1)
                         self.lin5 = torch.nn.Linear(224, 224)
-                        self.CELU5 = torch.nn.CELU(0.1)
+                        self.ELU5 = torch.nn.ELU(0.1)
                         self.lin6 = torch.nn.Linear(224, 1)
 
 
@@ -113,16 +113,16 @@ def ModelTest(training, validation, data_test,species_order,energy_shifter, epoc
                 def forward(self, x):
 
                         x = self.lin1(x)
-                        x = self.CELU1(x)
+                        x = self.ELU1(x)
                         x = self.lin2(x)
-                        x = self.CELU2(x)
+                        x = self.ELU2(x)
                         x = self.lin3(x)
-                        x4 = self.CELU3(x)
+                        x4 = self.ELU3(x)
                         x = self.lin4(x4)
-                        x5 = self.CELU4(x)
+                        x5 = self.ELU4(x)
                         x6=torch.cat((x4,x5),dim=-1)
                         x = self.lin5(x6)
-                        x=self.CELU5(x)
+                        x=self.ELU5(x)
                         xx=torch.multiply(x6,x)
                         x=self.lin6(xx)
 
