@@ -118,7 +118,7 @@ but doing so is NOT recommended, since it is very error prone.
 
 """
 
-species_order = ['C', 'H', 'O', 'N', 'S', 'Cl']
+species_order = ['H', 'C', 'N', 'O', 'S', 'Cl']
 
 num_species = len(species_order)
 
