@@ -64,7 +64,7 @@ def ModelTest(Rcr, Rca, EtaR, EtaA, Zeta,training, validation, data_test,species
         values_ShfZ=[]
         while count< Rca:
                 count+=0.7853999999999999
-                if count<Rcr:
+                if count<Rca:
                     values_ShfZ.append(count)         
 
         EtaR = torch.tensor([EtaR], device=device, dtype=torch.float32)
