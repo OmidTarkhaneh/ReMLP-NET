@@ -78,7 +78,7 @@ def ModelTest(training, validation, data_test,species_order,energy_shifter, epoc
     
         # ['C', 'H', 'O', 'N', 'Br', 'S', 'Cl', 'P', 'I', 'F'],
         num_species = len(species_order)
-        aev_computer = AEVComputer(Rcr, Rca, EtaR, ShfR, EtaA, Zeta, ShfZ, ShfA, num_species)
+        aev_computer = AEVComputer(Rcr, Rca, EtaR, ShfR, EtaA, Zeta, ShfA, ShfZ, num_species)
         # energy_shifter = EnergyShifter(None)
         print(energy_shifter.self_energies)
 
