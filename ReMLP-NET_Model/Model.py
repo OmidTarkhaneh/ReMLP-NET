@@ -167,11 +167,11 @@ def ModelTest(training, validation, data_test,species_order,energy_shifter, epoc
 
 
 
-        SGD = torch.optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
+        # SGD = torch.optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
         ###############################################################################
         # Setting up a learning rate scheduler to do learning rate decay
         AdamW_scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(AdamW, factor=0.5, patience=100, threshold=0)
-        SGD_scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(SGD, factor=0.5, patience=100, threshold=0)
+        # SGD_scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(SGD, factor=0.5, patience=100, threshold=0)
 
 
         ###############################################################################
@@ -273,7 +273,7 @@ def ModelTest(training, validation, data_test,species_order,energy_shifter, epoc
                         torch.save(nn.state_dict(), best_model_checkpoint)
 
                 AdamW_scheduler.step(rmse)
-                SGD_scheduler.step(rmse)
+                # SGD_scheduler.step(rmse)
      
 
 
@@ -291,10 +291,10 @@ def ModelTest(training, validation, data_test,species_order,energy_shifter, epoc
                         loss = (mse(predicted_energies, true_energies) / num_atoms.sqrt()).mean()
 
                         AdamW.zero_grad()
-                        SGD.zero_grad()
+                        # SGD.zero_grad()
                         loss.backward()
                         AdamW.step()
-                        SGD.step()
+                        # SGD.step()
            
 
         device='cpu'
